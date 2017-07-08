@@ -3,12 +3,20 @@ import { View, TouchableHighlight , Image, StyleSheet, FlatList, Text} from 'rea
 import {List, ListItem} from 'react-native-elements';
 
 import CategoryHeader from './src/Components/CategoryHeader';
-import FixedHeader from './src/Components/FixedHeader';
 import PlaceHolders from './src/Components/PlaceHolders';
+import Search from 'react-native-search-box';
 
 import api from './utilities/api';
 
 export default class HomeScreen extends Component {
+    
+        static navigationOptions = {
+            title: 'Home page',
+            headerTintColor: "blue",
+            headerStyle: {
+                backgroundColor:"green"
+            }
+        };
     constructor(props) {
         super(props);
         this.state = {
@@ -29,43 +37,40 @@ export default class HomeScreen extends Component {
     }
 
     dataByCat(cat) {
-    var data = [];
-        for(i=0;i<this.state.num_games;i++) {
-            if(this.state.games[i].categories.includes(cat))
-                data.push(this.state.games[i])
-        }
+        var data = [];
+            for(i=0;i<this.state.num_games;i++) {
+                if(this.state.games[i].categories.includes(cat))
+                    data.push(this.state.games[i])
+            }
 
-    return data;
-}
+        return data;
+    }
 
-    
+    onSearch = (text) => {
+        console.log(this.state.games[0]);
+        this.props.navigation.navigate('SearchScreen', {query: text});
+            
+     }
+
   render() {
     const { navigation } = this.props;
-    const cat1 = this.state.categories[0]
-    const cat1_data = this.dataByCat(cat1);
-    const cat2 = this.state.categories[1]
-    const cat2_data = this.dataByCat(cat2);
-    const cat3 = this.state.categories[2]
-    const cat3_data = this.dataByCat(cat3);
+     
     return (
-      <View style={{flex:1}}>
-         <FixedHeader />
-         <List> 
-            <FlatList
-                data={this.state.games}
-                renderItem={({item}) => 
-                <PlaceHolders navigator ={navigation} category={"cat"} data={item} />
-                }
-            />
-           
-        </List>
+      <View>
+          <Search
+          ref="search_box"
+          onSearch={this.onSearch}
+        />
+            <List> 
+                <FlatList
+                    data={this.state.categories}
+                    renderItem={({item}) =>
+                    <PlaceHolders navigator ={navigation} category={item} data={this.dataByCat(item)} />
+                    }
+                    keyExtractor={(item) => item}
+                   />
+            </List>
       </View>
     );
   }
 }
-
-/*  <PlaceHolders navigator ={navigation} category={cat1} data={cat1_data} />
-            <PlaceHolders navigator ={navigation} category={cat2} data={cat2_data} />
-            <PlaceHolders navigator ={navigation} category={cat3} data={cat3_data} />*/
-
-

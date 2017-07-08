@@ -4,6 +4,7 @@ import { StackNavigator,DrawerNavigator } from 'react-navigation';
 
 import HomeScreen from './HomeScreen';
 import Game from './src/Components/Game';
+import SearchScreen from './src/Components/SearchScreen';
 
 
 const Navigator = StackNavigator(
@@ -13,13 +14,15 @@ const Navigator = StackNavigator(
         },
         Game: {
             screen: Game
+        },
+        SearchScreen: {
+            screen: SearchScreen
         }
     });
 
 
 
 export default class App extends Component {
-
   render() {
     return (
     <View style={{flex: 1}}>
