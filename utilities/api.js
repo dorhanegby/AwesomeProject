@@ -1,3 +1,7 @@
+/**
+ * Fetching data api
+ */
+
 var api = {
     getGames() {
         var url = 'https://api.famobi.com/feed';
